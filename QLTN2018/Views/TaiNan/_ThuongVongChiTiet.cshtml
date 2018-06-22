@@ -1,0 +1,35 @@
+﻿
+@using QLTN2018.Models
+@model QLTN2018.Models.TaiNanThuongVong
+
+<tr>
+    @using (Html.BeginCollectionItem("TaiNanThuongVongs"))
+    {
+        <td class="text-center" style="vertical-align: middle;">
+            <button onclick="$(this).closest('tr').remove();" class="btn btn-danger btn-sm">
+                <span class="glyphicon glyphicon-remove"></span>
+
+            </button>
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.MaDTTV, new SelectList(ViewBag.ListDTTV, "MaDTTV", "TenDTTV", Model.MaDTTV), new { @class = "form-control paddingInputless" })
+
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.MaNT, new SelectList(ViewBag.ListNT, "MaNT", "TenNT", Model.MaNT), new { @class = "form-control paddingInputless" })
+        </td>
+        <td class="text-center" style="vertical-align: middle;">
+            @Html.CheckBoxFor(model => model.Nam)
+
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.MaHTBV, new SelectList(ViewBag.ListHTBV, "MaHTBV", "TenHTBV", Model.MaHTBV), new { @class = "form-control paddingInputless " })
+        </td>
+        <td>
+            @Html.DropDownListFor(model => model.MaTV, new SelectList(ViewBag.ListTV, "MaTV", "TyLeTV", Model.MaTV), new { @class = "form-control paddingInputless" })
+        </td>
+        <td>
+            @Html.EditorFor(model => model.SoTV, new { htmlAttributes = new { @class = "form-control paddingInputless", value = "1", min = "1", max = "100", type = "number" } })
+        </td>
+    }
+</tr>

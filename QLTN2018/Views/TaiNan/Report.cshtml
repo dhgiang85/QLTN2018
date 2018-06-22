@@ -1,0 +1,568 @@
+﻿
+@{
+    ViewBag.Title = "Report";
+}
+<div class="col-md-12  marginbottomless paddingInputless" style="margin-top: 10px">
+
+
+    @*<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">*@
+
+    <div class="panel panel-default marginbottomless">
+        <div class="panel-heading  " style="background-color: rgb(0, 172, 236);" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" class="paddingtopbottomless" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="more-less fa fa-angle-double-up fa-lg fa-border fa-pull-right" style="margin-top: -3px"></i>
+                    <b style="color: white;"> Tìm kiếm</b>
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in multi-collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body clearfix">
+                <form id="myForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group form-inline">
+
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                      Từ tháng
+                                    </span>
+
+                                    @Html.DropDownList("monthStart", new SelectList(new Dictionary<string, int> {{"1", 1}, {"2", 2}, {"3", 3}, {"4", 4}, {"5", 5}, {"6", 6}, {"7", 7}, {"8", 8}, {"9", 9}, {"10", 10}, {"11", 11}, {"12", 12}}, "Key", "Value",1), new {@class = "form-control paddingInputless text-center"})
+
+                                </div>
+                                <div class='input-group '>
+                                    <span class="input-group-addon">
+                                        <span class="fa fa-arrow-right"></span>
+                                    </span>
+
+                                    @Html.DropDownList("monthEnd", new SelectList(new Dictionary<string, int> {{"1", 1}, {"2", 2}, {"3", 3}, {"4", 4}, {"5", 5}, {"6", 6}, {"7", 7}, {"8", 8}, {"9", 9}, {"10", 10}, {"11", 11}, {"12", 12}}, "Key", "Value",12), new {@class = "form-control paddingInputless text-center"})
+
+                                </div>
+                                <div class='input-group pull-right'>
+                                    <span class="input-group-addon">
+                                        Năm
+                                    </span>
+
+                                    @Html.DropDownList("year", new SelectList(new Dictionary<string, int> {{"2017", 2017}, {"2018", 2018}, {"2019", 2019}, {"2020", 2020}, {"2021", 2021}, {"2022", 2022}, {"2023", 2023}, {"2024", 2024}, {"2025", 2025}}, "Key", "Value",2018), new {@class = "form-control paddingInputless text-center", id = "pagesizelist"})
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                        Loại tai nạn
+                                    </span>
+
+                                    @Html.DropDownList("MaLTN", null, new {@class = "form-control paddingInputless chosen-select", multiple = true, data_placeholder = "Tất cả"})
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                        Phương tiện
+                                    </span>
+
+                                    @Html.DropDownList("MaPT", null, new {@class = "form-control paddingInputless chosen-select", multiple = true, data_placeholder = "Tất cả"})
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                        Đơn vị
+                                    </span>
+
+                                    @Html.DropDownList("MaDVCTN", null, "Tất cả", new {@class = "form-control paddingInputless chosen-select"})
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                        Loại đường
+                                    </span>
+
+                                    @Html.DropDownList("MaLD", null, new {@class = "form-control paddingInputless chosen-select", multiple = true, data_placeholder = "Tất cả"})
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                        Nguyên nhân
+                                    </span>
+                                    @Html.DropDownList("MaDTNNTNGT", null, new {@class = "form-control paddingInputless chosen-select", multiple = true, data_placeholder = "Tất cả"})
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                        Địa chỉ
+                                    </span>
+                                    @Html.TextBox("diaChi", null, new {@class = "form-control paddingInputless"})
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                        Số báo cáo
+                                    </span>
+                                    @Html.TextBox("soBaoCao", null, new { @class = "form-control paddingInputless" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon form-control" >
+                                        <input  type="checkbox" checked name="SearchOptions[0]"   value="true"  style="margin-top: 4px">
+                                        <input  type="hidden" checked name="SearchOptions[0]"  value="false"  style="margin-top: 4px">
+                                        Số hư hỏng
+                                    </span>
+
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" checked name="SearchOptions[1]" value="true" style="margin-top: 4px">
+                                        <input type="hidden" checked name="SearchOptions[1]" value="false" style="margin-top: 4px">
+                                        Số bị thương
+                                    </span>
+
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" checked name="SearchOptions[2]" value="true" style="margin-top: 4px">
+                                        <input type="hidden" checked name="SearchOptions[2]" value="false" style="margin-top: 4px">
+                                        Số tử vong
+                                    </span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-inline">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon  ">
+                                        Theo số vụ
+                                    </span>
+
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" class="GroupSoVu" name="SearchOptions[3]" value="true" style="margin-top: 4px">
+                                        <input type="hidden" checked name="SearchOptions[3]" value="false" style="margin-top: 4px">
+                                        Có BT hoặc TV
+                                    </span>
+
+                                    <span class="input-group-addon">
+                                        <input type="checkbox"  class="GroupSoVu" name="SearchOptions[4]" value="true" style="margin-top: 4px">
+                                        <input type="hidden" checked name="SearchOptions[4]" value="false" style="margin-top: 4px">
+                                            Có tử vong
+
+                                        </span>
+
+                                    </div>
+                                </div>
+                            </div><div class="col-md-4">
+                                <div class="form-group">
+
+                                    <button type="submit" class="btn btn-default pull-right" id="panel_search" style="background-color: rgb(0, 172, 236); color: white">
+                                        <span class="fa fa-search"></span>
+                                        <b> Xuất</b>
+                                    </button>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </form>
+                </div>
+
+            </div>
+        </div>
+        <div class="panel panel-default" id="PanelChart">
+            <div class="panel-heading" style="background-color: rgb(0, 172, 236);" role="tab" id="headingTwo">
+                <h4 class="panel-title">
+                    <a role="button" class="paddingtopbottomless"  data-parent="#accordion" aria-expanded="true" aria-controls="collapseTwo" style="cursor:default">
+                        <b  class="paddingtopbottomless" style="color: white;"> Chart</b>
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseTwo" class="panel-collapse collapse in multi-collapse clearfix" role="tabpanel" aria-labelledby="headingTwo">
+                <div class="panel-body panelChart clearfix" style="padding-top: 3px; padding-bottom: 3px">
+                    @*<div class="row text-center" style="padding-left: 5px">
+                        <h3>Biểu đồ theo số thương vong</h3>
+                    </div>
+                    <div class="row" style="padding-left: 5px">
+                        <div id="chartSoTV" style="height: 400px;" class="col-md-3 chartPanel"></div>
+                        <div id="chartSoTVM" style="height: 400px;" class="col-md-9 chartPanel"></div>
+                    </div>
+                    <hr/>
+                    <div class="row text-center" style="padding-left: 5px">
+                        <h3>Biểu đồ theo số vụ</h3>
+                    </div>
+                    <div class="row" style="padding-left: 5px">
+                        <div id="chartSoVu" style="height: 400px;" class="col-md-3 chartPanel"></div>
+                        <div id="chartSoVuM" style="height: 400px;" class="col-md-9 chartPanel"></div>
+                    </div>
+                    <hr />
+                    <div class="row text-center" style="padding-left: 5px">
+                        <h3>Thống kê theo tuyến đường</h3>
+                    </div>
+                  
+                    <div class="table-responsive" id="tableTD">
+                        
+                    </div>*@
+
+                </div>
+
+
+            </div>
+        </div>
+
+    </div><!-- container -->
+    @section Scripts {
+        @Scripts.Render("~/bundles/Datetimepicker")
+        <script src="/Scripts/chosen.jquery.min.js"></script>
+        <link href="~/Scripts/jqPlot/jquery.jqplot.min.css" rel="stylesheet"/>
+
+        <!-- Scripts JS -->
+
+        <script src="~/Scripts/jqPlot/jquery.jqplot.min.js"></script>
+        <script src="~/Scripts/jqPlot/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+        <script src="~/Scripts/jqPlot/plugins/jqplot.barRenderer.min.js"></script>
+        <script src="~/Scripts/jqPlot/plugins/jqplot.pointLabels.min.js"></script>
+
+        <script type="text/javascript">
+            function toggleIcon(e) {
+                $(e.target)
+                    .prev('.panel-heading')
+                    .find(".more-less")
+                    .toggleClass('fa-angle-double-down fa-angle-double-up');
+            }
+
+            $('.panel').on('hidden.bs.collapse', toggleIcon);
+            $('.panel').on('shown.bs.collapse', toggleIcon);
+
+        </script>
+        <script type="text/javascript">
+
+            $(document)
+                .ready(function() {
+                    $.jqplot.config.enablePlugins = true;
+                    $(".chosen-select").chosen();
+                    $(function() {
+                        $('#dp1,#dp2')
+                            .datetimepicker({
+                                locale: 'vi',
+                                format: 'MM-YYYY'
+                            });
+                    });
+                    // the selector will match all input controls of type :checkbox
+                    // and attach a click event handler
+                    $("input:checkbox")
+                        .on('click',
+                            function() {
+                                // in the handler, 'this' refers to the box clicked on
+                                var $box = $(this);
+                                if ($box.is(":checked")) {
+                                    // the name of the box is retrieved using the .attr() method
+                                    // as it is assumed and expected to be immutable
+                                    var group = "input:checkbox[class='" + $box.attr("class") + "']";
+                                    // the checked state of the group/box on the other hand will change
+                                    // and the current value is retrieved using .prop() method
+                                    $(group).prop("checked", false);
+                                    $box.prop("checked", true);
+                                } else {
+                                    $box.prop("checked", false);
+                                }
+                            });
+                });
+            $("#myForm")
+                .submit(function(event) {
+                    $('#tableTD table').remove();
+                    //$('button[type="submit"]').attr('disabled', 'disabled');
+                    $(".panelChart").html('<div class="text-center"><img src="/Images/loading.gif" height="100px" /></div>');
+                    event.preventDefault();
+                    var formData = $(this).serialize();
+                    //console.log(formData);
+                    $('.chartPanel').html('');
+                    $.ajax({
+                        url: "/TaiNan/ReportSearch",
+                        type: "GET",
+                        data: formData,
+
+                        success: function(rslt) {
+                            //$('button[type="submit"]').removeAttr('disabled');
+                            $(".panelChart").html('');
+                            var content;
+                            if (rslt.TVDataY.length > 0) {
+                                content = '<div class="row text-center" style="padding-left: 5px">' +
+                                    '<h3>Biểu đồ theo số thương vong</h3></div>' +
+                                    '<div class="row" style="padding-left: 5px">' +
+                                    '<div id="chartSoTV" style="height: 400px;" class="col-md-3 chartPanel"></div>' +
+                                    '<div id="chartSoTVM" style="height: 400px;" class="col-md-9 chartPanel"></div>' +
+                                    '</div>';
+                                $(".panelChart").append(content);
+                                var plot1 = $.jqplot('chartSoTV',[rslt.TVDataY, rslt.TVData],{
+                                    animate: !$.jqplot.use_excanvas,
+                                    seriesDefaults: {
+                                        renderer: $.jqplot.BarRenderer,
+                                        pointLabels: { show: true },
+                                        rendererOptions: {
+                                            fillToZero: true,
+                                            //varyBarColor: true,
+                                            barPadding: 3,
+                                            barMargin: 3,
+                                            barWidth: 20,
+                                        }
+                                    },
+                                    axes: {
+                                        xaxis: {
+                                            renderer: $.jqplot.CategoryAxisRenderer,
+                                            ticks: rslt.TVLabel
+                                        },
+                                        yaxis: {
+                                            min: 0,
+                                            //tickInterval: 1,
+                                            tickOptions: {
+                                                formatString: '%d'
+                                            }
+
+                                        }
+                                    },
+                                    highlighter: { show: true }
+
+                                });
+                                var plot2 = $.jqplot('chartSoTVM',[rslt.soTVDataM_y, rslt.soTVDataM],{
+                                    animate: !$.jqplot.use_excanvas,
+                                    seriesDefaults: {
+                                        renderer: $.jqplot.BarRenderer,
+                                        pointLabels: { show: true },
+                                        rendererOptions: {
+                                            fillToZero: true,
+                                            //varyBarColor: true,
+                                            barPadding: 3,
+                                            barMargin: 3,
+                                            barWidth: 20,
+                                        }
+
+
+                                    },
+                                    axes: {
+                                        xaxis: {
+                                            renderer: $.jqplot.CategoryAxisRenderer,
+                                            ticks: rslt.soTVLabelMonth
+                                        },
+                                        yaxis: {
+                                            min: 0,
+                                            //tickInterval: 1,
+                                            tickOptions: {
+                                                formatString: '%d'
+                                            }
+
+                                        }
+                                    },
+                                    highlighter: { show: true },
+                                    series: [
+                                        { label: rslt.labelY }, { label: rslt.label }, {
+                                            pointLabels: {
+                                                show: true,
+                                                location: 's',
+                                                ypadding: 5
+                                            }
+                                        }
+                                    ],
+                                    legend: {
+                                        show: true,
+                                        location: 'e',
+                                        placement: 'inside'
+
+                                    }
+                                });
+                            };
+                            if (rslt.soVuData.length > 0) {
+                                content = '<hr/><div class="row text-center" style="padding-left: 5px">' +
+                                    '<h3>Biểu đồ theo số vụ</h3></div>' +
+                                    '<div class="row" style="padding-left: 5px">' +
+                                    '<div id="chartSoVu" style="height: 400px;" class="col-md-3 chartPanel"></div>' +
+                                    '<div id="chartSoVuM" style="height: 400px;" class="col-md-9 chartPanel"></div></div>';
+                                $(".panelChart").append(content);
+                                var plot3 = $.jqplot('chartSoVu',[rslt.soVuData],{
+                                    animate: !$.jqplot.use_excanvas,
+
+                                    seriesDefaults: {
+                                        renderer: $.jqplot.BarRenderer,
+                                        pointLabels: { show: true },
+
+                                        rendererOptions: {
+                                            fillToZero: true,
+                                            varyBarColor: true,
+                                            barPadding: 3,
+                                            barMargin: 3,
+                                            barWidth: 20,
+                                        }
+
+                                    },
+                                    axes: {
+                                        xaxis: {
+                                            renderer: $.jqplot.CategoryAxisRenderer,
+                                            ticks: [rslt.labelY, rslt.label]
+                                        },
+                                        yaxis: {
+                                            min: 0,
+                                            //tickInterval: 1,
+                                            tickOptions: {
+                                                formatString: '%d'
+                                            }
+
+                                        }
+                                    },
+                                    highlighter: { show: true }
+
+                                });
+                                var plot4 = $.jqplot('chartSoVuM',
+                                [rslt.soVuDataM_y, rslt.soVuDataM],
+                                {
+                                    animate: !$.jqplot.use_excanvas,
+                                    seriesDefaults: {
+                                        renderer: $.jqplot.BarRenderer,
+                                        pointLabels: { show: true },
+                                        rendererOptions: {
+                                            fillToZero: true,
+                                            //varyBarColor: true,
+                                            barPadding: 3,
+                                            barMargin: 3,
+                                            barWidth: 20,
+                                        }
+
+                                    },
+                                    axes: {
+                                        xaxis: {
+                                            renderer: $.jqplot.CategoryAxisRenderer,
+                                            ticks: rslt.soTVLabelMonth
+                                        },
+                                        yaxis: {
+                                            min: 0,
+                                            //tickInterval: 1,
+                                            tickOptions: {
+                                                formatString: '%d'
+                                            }
+
+                                        }
+                                    },
+                                    highlighter: { show: true },
+                                    series: [
+                                        { label: rslt.labelY }, { label: rslt.label }, {
+                                            pointLabels: {
+                                                show: true,
+                                                location: 's',
+                                                ypadding: 5
+
+                                            }
+                                        }
+                                    ],
+                                    legend: {
+                                        show: true,
+                                        location: 'e',
+                                        placement: 'inside'
+
+                                    }
+                                });
+                            }
+                            if (rslt.TDData.length > 0) {
+                                content = '<hr/><div class="row text-center" style="padding-left: 5px">' +
+                                    '<h3>Thống kê theo tuyến đường</h3></div>' +
+                                    '<div class="table-responsive" id="tableTD"></div>';
+                                $(".panelChart").append(content);
+                                var newRow =
+                                    '<table class="table table-striped table-bordered table-condensed table-hover">' +
+                                    '<thead><tr><th rowspan="2" class="textmiddle">No.</th>' +
+                                    '<th rowspan="2" class="textmiddle">Tuyến đường</th>' +
+                                    '<th colspan="2" class="textmiddle">Số vụ</th>' +
+                                    '<th rowspan="2" class="textmiddle">tăng(+)<br/>/giảm(-)</th>' +
+                                    '<th rowspan="2" class="textmiddle">%</th>' +
+                                    '<th colspan="2" class="textmiddle">Số hư hỏng</th>' +
+                                    '<th rowspan="2" class="textmiddle">tăng(+)<br/>/giảm(-)</th>' +
+                                    '<th rowspan="2" class="textmiddle">%</th>' +
+                                    '<th colspan="2" class="textmiddle">Số bị thương</th>' +
+                                    '<th rowspan="2" class="textmiddle">tăng(+)<br/>/giảm(-)</th>' +
+                                    '<th rowspan="2" class="textmiddle">%</th>' +
+                                    '<th colspan="2" class="textmiddle">Số tử vong</th>'+
+                                    '<th rowspan="2" class="textmiddle">tăng(+)<br/>/giảm(-)</th>'+
+                                    '<th rowspan="2" class="textmiddle">%</th></tr>' +
+                                    '<tr><th  class="textmiddle">'+rslt.labelY+'</th>'+
+                                    '<th  class="textmiddle">'+ rslt.label+'</th>'+
+                                    '<th  class="textmiddle">'+rslt.labelY+'</th>'+
+                                    '<th  class="textmiddle">'+ rslt.label+'</th>'+
+                                    '<th  class="textmiddle">'+rslt.labelY+'</th>'+
+                                    '<th  class="textmiddle">'+ rslt.label+'</th>'+
+                                    '<th  class="textmiddle">'+rslt.labelY+'</th>'+
+                                    '<th  class="textmiddle">'+ rslt.label+'</th></tr></thead><tbody>';
+                       
+                                $.each(rslt.TDData,
+                                   function (i, td) {
+                                       newRow += '<tr >' +
+                                           '<td class="textmiddle">' + (i+1) + '</td>' +
+                                           '<td>' + td.TenTD + '</td>' +
+
+                                           '<td class="textmiddle">' + td.SoVuComp + '</td>' +
+                                           '<td class="textmiddle">' + td.SoVuCur + '</td>' +
+                                           '<td class="textmiddle">' + (td.SoVuCur - td.SoVuComp) + '</td>' +
+                                           '<td class="textmiddle">' + (td.SoVuComp > 0 ? Math.round((td.SoVuCur - td.SoVuComp) * 100 / td.SoVuComp) + '%' : 'n/a') + '</td>' +
+
+                                           '<td class="textmiddle">' + td.SoHHComp + '</td>' +
+                                           '<td class="textmiddle">' + td.SoHHCur + '</td>' +
+                                           '<td class="textmiddle">' + (td.SoHHCur - td.SoHHComp) + '</td>' +
+                                           '<td class="textmiddle">' + (td.SoHHComp > 0 ? Math.round((td.SoHHCur - td.SoHHComp) * 100 / td.SoHHComp) + '%' : 'n/a') + '</td>' +
+
+                                           '<td class="textmiddle">' + td.SoBTComp + '</td>' +
+                                           '<td class="textmiddle">' + td.SoBTCur + '</td>' +
+                                           '<td class="textmiddle">' + (td.SoBTCur - td.SoBTComp) + '</td>' +
+                                           '<td class="textmiddle">' + (td.SoBTComp > 0 ? Math.round((td.SoBTCur - td.SoBTComp) * 100 / td.SoBTComp)+'%' : 'n/a') + '</td>' +
+
+                                           '<td class="textmiddle">' + td.SoTVComp + '</td>' +
+                                           '<td class="textmiddle">' + td.SoTVCur + '</td>' +
+                                           '<td class="textmiddle">' + (td.SoTVCur - td.SoTVComp) + '</td>' +
+                                           '<td class="textmiddle">' + (td.SoTVComp > 0 ? Math.round((td.SoTVCur - td.SoTVComp) * 100 / td.SoTVComp) + '%' : 'n/a') + '</td>' +
+                                           '</tr>';
+                                      
+                                   });
+                                newRow += '</tbody></table>';
+                                
+                                $('#tableTD').append(newRow);
+
+                            }
+
+                        },
+                        error: function(error) {
+                            console.log(error);
+                            alert(error);
+                        }
+                    });
+                });
+        </script>
+
+    }

@@ -1,0 +1,230 @@
+﻿
+@{
+    ViewBag.Title = "Bản đồ tai nạn";
+}
+<div class="col-md-12  marginbottomless paddingInputless" style="margin-top: 10px">
+
+    <form class="post-list">
+        <input class="page" type="hidden" value="">
+        <input class="data" type="hidden" value="">
+    </form>
+@*<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">*@
+
+    <div class="panel panel-default marginbottomless">
+        <div class="panel-heading  " style="background-color: rgb(0, 172, 236);" role="tab" id="headingOne">
+            <h4 class="panel-title">
+                <a role="button" class="paddingtopbottomless" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    <i class="more-less fa fa-angle-double-up fa-lg fa-border fa-pull-right" style="margin-top: -3px"></i>
+                    <b style="color: white;"> Tìm kiếm</b>
+                </a>
+            </h4>
+        </div>
+        <div id="collapseOne" class="panel-collapse collapse in multi-collapse" role="tabpanel" aria-labelledby="headingOne">
+            <div class="panel-body clearfix">
+                <form id="myForm">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                                <span class="glyphicon glyphicon-calendar"></span>
+                                            </span>
+
+                                    @Html.TextBox("dateStart", ViewBag.dateStart as string, "{0:dd-MM-yyyy HH:mm}", new {@class = "form-control paddingInputless", type = "text", onkeydown = "return false", id = "dp1"})
+                                    <span class="input-group-addon">
+                                                <span class="fa fa-arrow-right "></span>
+                                            </span>
+
+                                    @Html.TextBox("dateEnd", ViewBag.dateEnd as string, "{0:dd-MM-yyyy HH:mm}", new {@class = "form-control paddingInputless", type = "text", onkeydown = "return false", id = "dp1"})
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                                Loại tai nạn
+                                            </span>
+
+                                    @Html.DropDownList("MaLTN", null, new {@class = "form-control paddingInputless chosen-select", multiple = true, data_placeholder = "Tất cả"})
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                                Phương tiện
+                                            </span>
+
+                                    @Html.DropDownList("MaPT", null, new {@class = "form-control paddingInputless chosen-select", multiple = true, data_placeholder = "Tất cả"})
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                                Đơn vị
+                                            </span>
+
+                                    @Html.DropDownList("MaDVCTN", null, "Tất cả", new {@class = "form-control paddingInputless chosen-select"})
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                                Loại đường
+                                            </span>
+
+                                    @Html.DropDownList("MaLD", null, new {@class = "form-control paddingInputless chosen-select", multiple = true, data_placeholder = "Tất cả"})
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                                Nguyên nhân
+                                            </span>
+                                    @Html.DropDownList("MaDTNNTNGT", null, new {@class = "form-control paddingInputless chosen-select", multiple = true, data_placeholder = "Tất cả"})
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                                Địa chỉ
+                                            </span>
+
+                                    @Html.TextBox("diaChi", null, new {@class = "post_search_text form-control paddingInputless" })
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 ">
+                            <div class="form-group">
+                                <div class='input-group'>
+                                    <span class="input-group-addon">
+                                        Số báo cáo
+                                    </span>
+                                    @Html.TextBox("soBaoCao", null, new { @class = "post_search_text form-control paddingInputless" })
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 col-md-offset-8">
+                            <div class="form-group">
+
+
+                                <button type="submit" class="post_search_submit btn btn-default pull-right" id="panel_search" style="background-color: rgb(0, 172, 236); color: white">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                    <b> Tìm kiếm</b>
+                                </button>
+
+
+                            </div>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <div class="panel panel-default marginbottomless" id="PanelMap">
+        <div class="panel-heading" style="background-color: rgb(0, 172, 236);" role="tab" id="headingTwo">
+            <h4 class="panel-title">
+                <a role="button" class="paddingtopbottomless" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="more-less fa fa-angle-double-up fa-lg fa-border fa-pull-right" style="margin-top: -3px"></i>
+                    <b style="color: white;"> Map</b>
+                </a>
+            </h4>
+        </div>
+        <div id="collapseTwo" class="panel-collapse collapse in multi-collapse" role="tabpanel" aria-labelledby="headingTwo">
+            <div class="panel-body paddingInputless" style="padding-top: 3px; padding-bottom: 3px">
+
+                <div id="map_canvas" style="width: auto; height: 400px;"></div>
+
+            </div>
+
+        </div>
+    </div>
+    <div class="panel panel-default marginbottomless">
+        <div class="panel-heading" style="background-color: rgb(0, 172, 236);" role="tab" id="headingThree">
+            <h4 class="panel-title">
+                <a role="button" class="paddingtopbottomless" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                    <i class="more-less fa fa-angle-double-up fa-lg fa-border fa-pull-right" style="margin-top: -3px"></i>
+                    <b style="color: white;"> Danh sách tai nạn</b>
+                </a>
+            </h4>
+        </div>
+        <div id="collapseThree" class="panel-collapse collapse in multi-collapse clearfix" role="tabpanel" aria-labelledby="headingThree">
+            <div class="panel-body paddingInputless" style="padding-top: 3px; padding-bottom: 3px">
+                <div class="pagination-container clearfix">
+                </div>
+                
+            </div>
+            <div class="pagination-nav pull-right"></div>
+        </div>
+
+        @*</div>*@ <!-- panel-group -->
+
+
+    </div>
+</div><!-- container -->
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/Datetimepicker")
+    <script src="/Scripts/chosen.jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyDHasSo8MEV7BJbmm0axYKJ8-4IELQjf1k&libraries=places"></script>
+    <script src="/Scripts/MapAPI.js"></script>
+    <script src="/Scripts/MapSearch.js"></script>
+
+    <script type="text/javascript">
+        function toggleIcon(e) {
+            $(e.target)
+                .prev('.panel-heading')
+                .find(".more-less")
+                .toggleClass('fa-angle-double-down fa-angle-double-up');
+        }
+
+        $('.panel').on('hidden.bs.collapse', toggleIcon);
+        $('.panel').on('shown.bs.collapse', toggleIcon);
+        $(document)
+            .ready(function() {
+                $('#dp1,#dp2')
+                    .datetimepicker({
+                        locale: 'vi',
+                        format: 'DD-MM-YYYY HH:mm'
+                    });
+
+                $(".chosen-select").chosen();
+                controlMap();
+
+            });
+    </script>
+
+
+}
+
+
+
+

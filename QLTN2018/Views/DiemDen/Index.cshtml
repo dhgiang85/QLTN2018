@@ -1,0 +1,248 @@
+﻿@model IEnumerable<QLTN2018.Models.DiemDen>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="clearfix">
+    <article class="navbar-form navbar-left p-0 m-0 ml-b pull-right" style="padding-right: 0px">
+
+        @Html.ActionLink(" ", "Create", null, null, new { id = "btnCreate", @class = "btn btn-success fa fa-plus", title = "tạo mới" })
+    </article>
+</div>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-condensed table-hover js-table">
+        <tr>
+            <th></th>
+            <th>
+                Tuyến đường
+            </th>
+            <th>
+                Vị trí
+            </th>
+            <th>
+                Kế hoạch xử lý
+            </th>
+            <th>
+                Đơn vị
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td class="width-5 text-center" style="vertical-align: middle;">
+                <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                    <div class="btn-group" role="group" aria-label="chỉnh sửa" id="trdelete_@item.ID">
+                        <a onclick="Details(@item.ID)" alt="Thông tin thêm" data-toggle="tooltip" data-id="@item.ID" data-placement="right" title="Chỉnh sửa">
+                            <span class="fa fa-map-marker fa-lg" aria-hidden="true" style="margin: 4px;cursor: pointer;"></span>
+                        </a>
+                    </div>
+                </div>
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Address)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DVCT)
+
+            </td>
+        </tr>
+        }
+
+    </table>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header clearfix">
+
+                <h4 class="modal-title">
+                    <span id="eventTitle">1234</span>
+                </h4>
+                <div class="form-inline pull-right">
+                    <a id="btnDelete" onclick="Delete(25)" class="btn btn-default btn-sm pull-right">
+                        <span class="glyphicon glyphicon-remove"></span> Remove
+                    </a>
+                    <a id="btnEdit" href="" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
+                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                    </a>
+                </div>
+               
+                @*<button type="button" class="close" data-dismiss="modal">&times;</button>*@
+            </div>
+            <div class="modal-body" id="pModalbody">
+
+                
+
+                <p id="pDetails"></p>
+                <div id="map_canvas" style="width: auto; height: 250px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script type="text/javascript">
+
+    </script>
+    <script type="text/javascript">
+        $(document)
+            .ready(function () {
+                if (!document.getElementById('googleMapAPI')) {
+                    var s = document.createElement('script');
+                    s.type = 'text/javascript';
+                    s.id = 'googleMapAPI';
+                    s.src =
+                        'https://maps.googleapis.com/maps/api/js?key=AIzaSyDHasSo8MEV7BJbmm0axYKJ8-4IELQjf1k&libraries=places';
+                    document.body.appendChild(s);
+                } else {
+                    controlMap();
+                }
+               
+            });
+
+        function initializeMap(lat, lng, radius) {
+            var mapOptions = {
+                center: new google.maps.LatLng(lat, lng),
+                zoom: 17,
+                styles: [
+                    {
+                        "featureType": "administrative",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "on" }, { "saturation": -100 }, { "lightness": 20 }]
+                    }, {
+                        "featureType": "road",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "on" }, { "saturation": -100 }, { "lightness": 40 }]
+                    }, {
+                        "featureType": "water",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "on" }, { "saturation": -10 }, { "lightness": 30 }]
+                    }, {
+                        "featureType": "landscape.man_made",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "simplified" }, { "saturation": -60 }, { "lightness": 10 }]
+                    }, {
+                        "featureType": "landscape.natural",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "simplified" }, { "saturation": -60 }, { "lightness": 60 }]
+                    }, {
+                        "featureType": "poi",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "off" }, { "saturation": -100 }, { "lightness": 60 }]
+                    }, {
+                        "featureType": "transit",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "off" }, { "saturation": -100 }, { "lightness": 60 }]
+                    }
+                ]
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+            
+            var circle = new google.maps.Circle({
+                fillColor: '#AA0000',
+                fillOpacity: 0.2,
+                strokeWeight: 1,
+                clickable: false,
+                editable: false,
+                draggable: false,
+                map: map,
+                radius: radius,
+                center: new google.maps.LatLng(lat, lng),
+                zIndex: 1
+            });
+
+            circle.setMap(map);
+        }
+
+        // Show, hide map on select change
+        function controlMap(manual) {
+            $('#map_canvas')
+                .slideDown(100,
+                    function () {
+                        initializeMap();
+                    });
+
+            return !1;
+        }
+
+
+    </script>
+    <script>
+        var Delete = function (ID) {
+
+            bootbox.confirm({
+                title: "Xóa",
+                message: "Bạn muốn xóa điểm đen",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "POST",
+                            url: '/diemden/DeleteConfirmed',
+                            data: { ddID: ID },
+                            success: function (data) {
+                                if (data.status) {
+                                    $('#myModal').modal('hide');
+                                    toastr.success("Delected Successfully");
+                                    //$(element).closest("tr").toggle();
+                                    $('#trdelete_' + ID).closest("tr").remove();
+                                    $('#trCdelete_' + ID).closest("tr").remove();
+                                }
+                            },
+                            error: function (xml, message, text) {
+                                toastr.error("Msg: " + message + ", Text: " + text);
+                            }
+                        });
+                    }
+                }
+            });
+
+        };
+
+
+        var Details = function (ID) {
+
+            $.ajax({
+                url: "/Diemden/GetDetails",
+                type: "GET",
+                data: { ddID: ID },
+                success: function (result) {
+                    console.log(result);
+                    $('#myModal #eventTitle').text(result.Name);
+                    $('#btnEdit').attr("href", "/DiemDen/Edit/" + result.ID);
+                    $('#btnDelete').attr("onclick", "Delete(" + result.ID + ")");
+                    
+                    $('#myModal').on('shown.bs.modal', function () {
+                        initializeMap(result.Lat, result.Lng, result.Radius);
+                    });
+                    $('#myModal').modal();
+                },
+                error: function (error) {
+                    console.log(error);
+                    alert(error);
+                }
+            });
+        };
+    </script>
+}

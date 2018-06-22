@@ -1,0 +1,309 @@
+﻿@model QLTN2018.Models.TaiNan
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<h3>Nhập số liệu tai nạn</h3>
+<hr/>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(false, "", new {@class = "text-danger"})
+
+        <div class="col-md-5">
+            <div class="form-group marginbottomless">
+                <label class="control-label col-md-4 paddingless">Ngày báo cáo</label>
+                @*<div class="col-md-3" style="padding-right: 0px">
+                    @Html.EditorFor(model => model.SoBC, new {htmlAttributes = new {@class = "form-control paddingInputless"}})
+                </div>*@
+                <div class="col-md-4" style="padding-right: 0px">
+                    @Html.TextBoxFor(model => model.TGTN, "{0:dd-MM-yyyy HH:mm}", new { @class = "form-control paddingInputless", id = "datetimepicker" })
+                </div>
+                <div class="col-md-4" style="padding-left: 2px">
+
+                    @Html.DropDownListFor(model => model.MaLTN, ViewBag.MaLTN as SelectList, new { @class = "form-control paddingInputless" })
+                </div>
+     
+            </div>
+
+            <div class="form-group marginbottomless">
+                <label class="control-label col-md-4 paddingless">Đơn vị thụ lý</label>
+                <div class="col-md-8">
+                    @*@Html.DropDownList("MaDVCTN", null, htmlAttributes: new {@class = "form-control paddingInputless",name= "TaiNan.MaDVCTN" })*@
+                    @Html.DropDownListFor(model => model.MaDVCTN, ViewBag.MaDVCTN as SelectList, new {@class = "form-control paddingInputless"})
+                </div>
+            </div>
+
+            <div class="form-group marginbottomless">
+                <label class="control-label col-md-4 paddingless">Địa chỉ</label>
+                <div class="col-md-3" style="padding-right: 0px">
+                    @Html.EditorFor(model => model.DiaChi, new {htmlAttributes = new {@class = "form-control paddingInputless"}})
+                </div>
+                <div class="col-md-5 "style="padding-left: 2px">
+
+                    @Html.DropDownListFor(model => model.MaTD, ViewBag.MaTD as SelectList, new {@class = "form-control paddingInputless chosen-select"})
+                </div>
+            </div>
+            <div class="form-group marginbottomless">
+
+                <div class="col-md-4 col-md-offset-4" style="padding-right: 1px">
+
+                    @Html.DropDownListFor(model => model.MaQH, ViewBag.MaQH as SelectList, new {@class = "form-control paddingInputless", id = "MaQHID"})
+                </div>
+                <div class="col-md-4" style="padding-left: 1px">
+                    @Html.DropDownListFor(model => model.MaPX, ViewBag.MaPX as SelectList, new {@class = "form-control paddingInputless", id = "MaPXID"})
+                </div>
+            </div>
+            <div class="form-group marginbottomless">
+                <label class="control-label col-md-4 paddingless">Loại đường</label>
+                <div class="col-md-8">
+
+                    @Html.DropDownListFor(model => model.MaLD, ViewBag.MaLD as SelectList, new {@class = "form-control paddingInputless"})
+                </div>
+
+            </div>
+            <div class="form-group marginbottomless">
+                <label class="control-label col-md-4 paddingless">ĐT gây TNGT</label>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.MaPT, ViewBag.MaPT as SelectList, new {@class = "form-control paddingInputless"})
+                </div>
+            </div>
+
+            <div class="form-group marginbottomless">
+                <label class="control-label col-md-4 paddingless">Nguyên nhân</label>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.MaDTNNTNGT, ViewBag.MaDTNNTNGT as SelectList, new {@class = "form-control paddingInputless", id = "MaDTNNID"})
+                </div>
+            </div>
+            <div class="form-group marginbottomless">
+                <div class="col-md-8 col-md-offset-4">
+                    @Html.DropDownListFor(model => model.MaNNTNGT, ViewBag.MaNNTNGT as SelectList, new {@class = "form-control paddingInputless", id = "MaNNID"})
+                </div>
+
+            </div>
+            <div class="form-group marginbottomless">
+                <label class="control-label col-md-4 paddingless">Loại va chạm</label>
+                <div class="col-md-8">
+                    @Html.DropDownListFor(model => model.MaHTVC, ViewBag.MaHTVC as SelectList, new {@class = "form-control paddingInputless"})
+
+                </div>
+            </div>
+            <div class="form-group marginbottomless">
+                <label class="control-label col-md-4 paddingless">Số hư hỏng</label>
+
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.SoHH, new { htmlAttributes = new { @class = "form-control paddingInputless", placeholder = "Số hư hỏng", min = "0", max = "100" } })
+                </div>
+            </div>
+            @*<div class="form-group marginbottomless">
+                <label class="control-label col-md-4 paddingless">Số hư hỏng</label>
+                <div class="col-md-8">
+                    @Html.EditorFor(model => model.SoHH, new {htmlAttributes = new {@class = "form-control paddingInputless", placeholder = "Số hư hỏng" } })
+                </div>
+            </div>*@
+
+            <div class="form-group marginbottomless">
+                <div class="col-md-11 col-md-offset-1">
+                    @Html.TextAreaFor(model => model.TomTatSoBo, 5, 0, new {@class = "form-control paddingInputless", placeholder = "tóm tắt sơ bộ", type = "text"})
+                </div>
+            </div>
+            @*<div class="form-group">
+                @Html.LabelFor(model => model.Lat, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Lat, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Lat, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Lng, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Lng, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Lng, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+
+        </div>
+        <div class="col-md-7 marginbottomless paddingInputless ">
+            <div class="form-group marginbottomless">
+                <div class="col-md-12">
+                    <input class="form-control" placeholder="Tìm địa điểm" type="text" id="maps_address"/>
+                </div>
+            </div>
+            <div id="maps_maparea">
+                <div id="maps_mapcanvas" style="margin: 2px" class="form-group"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <input id="TaiNan_Lat" name="Lat" type="text" value="@Model.Lat" hidden>
+    <input id="TaiNan_Lng" name="Lng" type="text" value="@Model.Lng" hidden>
+
+    <div class="col-md-12  marginbottomless paddingInputless">
+        <div class="panel panel-success">
+            <div class="panel-heading ">
+                <b>Thông tin thương vong</b>
+                <button id="addAnother" name="addemployee" class="btn btn-sm">
+                    <span class="glyphicon glyphicon-plus"></span>
+                </button>
+            </div>
+            <div class="panel-body paddingInputless" style="padding-top: 3px;padding-bottom: 3px">
+                <table class="table table-bordered table-condensed table-hover">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>
+                                Đối tượng
+                            </th>
+                            <th>
+                                Nhóm tuổi
+                            </th>
+                            <th>
+                                Nam
+                            </th>
+                            <th>
+                                Hình thức bảo vệ
+                            </th>
+                            <th>
+                                Tỷ lệ thương vong
+                            </th>
+                            <th>
+                                Số lượng
+                            </th>
+                            
+
+                        </tr>
+                    </thead>
+                    <tbody id="uBody">
+                        @foreach (var tntv in Model.TaiNanThuongVongs)
+                        {
+                            Html.RenderPartial("_ThuongVongChiTietEditor", tntv);
+                        }
+                    </tbody>
+
+
+                </table>
+
+            </div>
+
+        </div>
+    </div>
+    @*<a id="addAnother">Add another</a>*@
+    
+    <div class="form-horizontal">
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Lưu" class="btn btn-default"/>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/bundles/Datetimepicker")
+    <script src="/Scripts/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var map_Lat = @Model.Lat;
+        var map_Lng = @Model.Lng;
+     
+        $(function() {
+            $('#addAnother')
+                .on('click',
+                    function(e) {
+                        e.preventDefault();
+                        $.ajax({
+                                async: false,
+                                url: '/TaiNan/TvEntryRow'
+                            })
+                            .success(function(partialView) {
+                                $('#uBody').append(partialView);
+                            });
+                    });
+
+        });
+        $(function() {
+            $('#datetimepicker')
+                .datetimepicker({
+                    defaultDate: new Date(),
+                    locale: 'vi',
+                    format: 'DD-MM-YYYY HH:mm'
+                });
+            $(".chosen-select").chosen();
+            //$('#uBody').sortable();
+        });
+        $(document)
+            .ready(function() {
+     
+                $("#MaQHID")
+                    .change(function() {
+                        $("#MaPXID").empty();
+                        if ($("#MaQHID").val() > 0) {
+                            $.ajax({
+                                type: 'GET',
+                                dataType: 'json',
+                                //traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                url: '/TaiNan/GetPX',
+                                data: { QHID: $("#MaQHID").val() },
+                                success: function(states) {
+
+                                    $.each(states,
+                                        function(i, state) {
+                                            $("#MaPXID")
+                                                .append('<option value="' +
+                                                    state.Value +
+                                                    '">' +
+                                                    state.Text +
+                                                    '</option>');
+                                        });
+                                },
+                                error: function(ex) {
+                                    alert('Failed to retrieve states.' + ex.errorCode);
+                                }
+                            });
+                        };
+                        return false;
+                    });
+
+                $("#MaDTNNID")
+                    .change(function() {
+                        $("#MaNNID").empty();
+                        if ($("#MaDTNNID").val() > 0) {
+                            $.ajax({
+                                type: 'GET',
+                                dataType: 'json',
+                                //traditional: true,
+                                contentType: "application/json; charset=utf-8",
+                                url: '/TaiNan/GetNN',
+
+                                data: { DTNNID: $("#MaDTNNID").val() },
+                                success: function(states) {
+                                    $.each(states,
+                                        function(i, state) {
+                                            $("#MaNNID")
+                                                .append('<option value="' +
+                                                    state.Value +
+                                                    '">' +
+                                                    state.Text +
+                                                    '</option>');
+                                        });
+                                },
+                                error: function(ex) {
+                                    alert('Failed to retrieve states.' + ex.errorCode);
+                                }
+                            });
+                        };
+                        return false;
+                    });
+            });
+
+
+    </script>
+    <script type="text/javascript" src="~/Scripts/PickLatLng.js"></script>
+}        

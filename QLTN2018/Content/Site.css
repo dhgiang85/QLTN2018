@@ -1,0 +1,134 @@
+﻿body {
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+/*input,
+select,
+textarea {
+    max-width: 280px;
+}*/
+.nopadding {
+   padding: 0 !important;
+   margin: 0 !important;
+}
+.marginbottomless {
+    margin-bottom: 7px
+}
+.paddingInputlesspaddingless {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.paddingInputless {
+    padding-left: 3px !important;
+    padding-right: 3px !important;
+}
+
+.width-3 {
+    width: 3%;
+
+}
+.width-5 {
+    width: 5%;
+}
+.width-7 {
+   width: 7%;
+}
+.width-10 {
+    width: 10%;
+}
+.width-12 {
+    width: 12%;
+}
+.width-15 {
+    width: 15%;
+}
+
+.width-20 {
+    width: 20%;
+}
+.width-25 {
+    width: 25%;
+}
+.width-30 {
+    width: 30%;
+}
+.modal-header, .modal-body  {
+    padding-top: 5px!important;
+    padding-bottom: 5px!important;    
+}
+
+.panel-heading {
+    padding-top: 5px!important;
+    padding-bottom: 5px!important;    
+}
+
+.panel-group .panel {
+    border-radius: 0;
+    box-shadow: none;
+    border-color: #EEEEEE;
+}
+
+.panel-default > .panel-heading {
+    padding: 0;
+    border-radius: 0;
+    color: #212121;
+    background-color: #FAFAFA;
+    border-color: #EEEEEE;
+}
+
+.panel-title { font-size: 14px; }
+
+.panel-title > a {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+}
+
+.more-less {
+    /*float: right;*/
+    color: white;
+}
+
+.panel-default > .panel-heading + .panel-collapse > .panel-body { border-top-color: #EEEEEE; }
+
+
+
+.paddingtopbottomless {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+}
+.p-d {
+    padding: 20px 20px 20px 20px;
+}
+
+
+span.fa-plus-circle,.fa-map-marker{color: 	#151fa9;}
+/*span.fa-map-marker{color: 	#151fa9;}*/
+span.fa-minus-circle{color:red;}
+th.active{color: 	#337ab7;}
+.textmiddle {
+    text-align: center!important;
+    vertical-align: middle!important
+}
+/* Pagination Styles */
+.pagination-nav { margin: 0px 0 0px 0; }
+.pagination-nav ul {margin: 0; padding: 0;}
+.pagination-nav ul li {display: inline-block; margin: 3px; padding: 6px 10px; background: #FFF; color: black; border-radius: 2px; }
+.pagination-nav ul li.active:hover {cursor: pointer; background: #18bc9c; color: white; }
+.pagination-nav ul li.inactive {background: #e8e8e8;}
+.pagination-nav ul li.selected {background: #18bc9c; color: white;}

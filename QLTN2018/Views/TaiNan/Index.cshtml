@@ -1,0 +1,365 @@
+﻿@model IEnumerable<QLTN2018.ViewModels.TNTVData>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered table-condensed table-hover js-table">
+        <tr>
+            <th></th>
+            <th>
+                Số BC
+            </th>
+            <th>
+                Thời gian
+            </th>
+          
+            <th>
+                Loại
+            </th>
+            <th>
+                Đơn vị
+            </th>
+
+            <th>
+                Địa chỉ
+            </th>
+
+            <th>
+                Nguyên nhân
+            </th>
+            <th>
+                Phương tiện
+            </th>
+            <th>
+                HH
+            </th>
+            <th>
+                BT
+            </th>
+            <th>
+                TV
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="width-5 text-center" style="vertical-align: middle;">
+                    <div class="btn-group btn-group-sm" role="group" aria-label="...">
+                        <div class="btn-group " role="group" aria-label="Hiển thị chi tiết">
+                            <a class="parents js-view-parents" data-href="formation_json_parents" data-id=@item.TaiNanID data-toggle="tooltip" data-placement="top" alt="Hiển thị chi tiết" title="Hiển thị chi tiết">
+                                <span class="fa fa-plus-circle fa-lg" aria-hidden="true" style="margin: 4px;cursor: pointer;"></span>
+                            </a>
+                            <a class="details-open"></a>
+                        </div>
+
+                        <div class="btn-group" role="group" aria-label="chỉnh sửa" id="trdelete_@item.TaiNanID">
+                            <a onclick="Details(@item.TaiNanID)" alt="Thông tin thêm" data-toggle="tooltip" data-id="@item.TaiNanID" data-placement="right" title="Chỉnh sửa">
+                                <span class="fa fa-map-marker fa-lg" aria-hidden="true" style="margin: 4px;cursor: pointer;"></span>
+                            </a>
+                        </div>
+
+
+                    </div>
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoBC)
+                </td>
+                <td class="width-10">
+
+                    @item.TGTN.ToString("HH:mm dd/MM/yy")
+                </td>
+     
+                <td class="width-12">
+                    @Html.DisplayFor(modelItem => item.TenLTN)
+                </td>
+                <td class="width-10">
+                    @Html.DisplayFor(modelItem => item.TenDVCTN)
+                </td>
+                <td>
+                    @item.DiaChi 
+
+                </td>
+
+             
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenDTNNTNGT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TenPT)
+                </td>
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoHH)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoBT)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SoTV)
+                </td>
+
+
+            </tr>
+        }
+
+    </table>
+</div>
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span id="eventTitle">1234</span>
+                </h4>
+            </div>
+            <div class="modal-body" id="pModalbody">
+
+                <a id="btnDelete" onclick="Delete(25)" class="btn btn-default btn-sm pull-right">
+                    <span class="glyphicon glyphicon-remove"></span> Remove
+                </a>
+                <a id="btnEdit" href="" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
+
+                <p id="pDetails"></p>
+                <div id="map_canvas" style="width: auto; height: 250px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+       
+    </script>
+    <script type="text/javascript">
+        $(document)
+            .ready(function() {
+                if (!document.getElementById('googleMapAPI')) {
+                    var s = document.createElement('script');
+                    s.type = 'text/javascript';
+                    s.id = 'googleMapAPI';
+                    s.src =
+                        'https://maps.googleapis.com/maps/api/js?key=AIzaSyDHasSo8MEV7BJbmm0axYKJ8-4IELQjf1k&libraries=places';
+                    document.body.appendChild(s);
+                } else {
+                    controlMap();
+                }
+                var $table = $('.js-table');
+
+                $table.find('.js-view-parents')
+                    .on('click',
+                        function (e) {
+                            e.preventDefault();
+                            // cache elements
+                            var $btn = $(e.target),
+                                $row = $btn.closest('tr'),
+                                // find next immediate .expand-child
+                                $nextRow = $row.next('tr.expand-child');
+                            // toggle button
+                            $btn.closest('span').toggleClass('fa-plus-circle fa-minus-circle');
+                            // if .expand-child row exist already, toggle
+                            if ($nextRow.length) {
+                                // show or hide .expand-child row if eye button is open or not, respectively
+                                $nextRow.toggle($btn.closest('span').hasClass('fa-minus-circle'));
+
+                                //$nextRow.remove();
+                                // if not, create .expand-child row
+                            } else {
+
+                                $.ajax({
+                                    url: '/TaiNan/TVDetails/',
+                                    dataType: "json",
+                                    type: "GET",
+
+                                    data: { tnID: $btn.parent().data("id") },
+                                    success: function (rslt) {
+
+                                        var newRow =
+                                            '<tr style="background-color:  #8faac9;" class="expand-child"' +
+                                                '">' +
+                                                '<td colspan="12" style="padding-top:1px" id=trCdelete_' + $btn.parent().data("id") + '>' +
+                                                '<table class="table table-condensed " width=100% style="margin-bottom:2px" >' +
+                                                '<thead>' +
+                                                '<tr>' +
+                                                '<th class="width-10">Đối tượng</th>' +
+                                                '<th class="width-12">Nhóm tuổi</th>' +
+                                                '<th class="width-7">Giới tính</th>' +
+                                                '<th class="width-25">Hình thức bảo vệ</th>' +
+                                                '<th class="width-25">Tỷ lệ thương vong </th>' +
+                                                '<th class="width-7">Số TV</th>' +
+                                                '</tr>' +
+                                                '</thead>' +
+                                                '<tbody>';
+
+                                        $.each(rslt,
+                                            function (i, tntv) {
+                                                newRow += '<tr>' +
+                                                    '<td>' + tntv.TenDTTV + '</td>' +
+                                                    '<td>' + tntv.TenNT + '</td>' +
+                                                    '<td>' + (tntv.Nam ? 'Nam' : 'Nữ') + '</td>' +
+                                                    '<td>' + tntv.TenHTBV + '</td>' +
+                                                    '<td>' + tntv.TyLeTV + '</td>' +
+                                                    '<td>' + tntv.SoTV + '</td>' +
+                                                    '</tr>';
+                                            });
+                                        newRow += '</tbody></table></td></tr>';
+                                        $row.after(newRow);
+                                    },
+                                    error: function (xml, message, text) {
+
+
+                                        toastr.error("Msg: " + message + ", Text: " + text);
+                                    }
+
+                                });
+                            }
+                        });
+            });
+
+        function initializeMap(lat, lng) {
+            var mapOptions = {
+                center: new google.maps.LatLng(lat, lng),
+                zoom: 17,
+                styles: [
+                    {
+                        "featureType": "administrative",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "on" }, { "saturation": -100 }, { "lightness": 20 }]
+                    }, {
+                        "featureType": "road",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "on" }, { "saturation": -100 }, { "lightness": 40 }]
+                    }, {
+                        "featureType": "water",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "on" }, { "saturation": -10 }, { "lightness": 30 }]
+                    }, {
+                        "featureType": "landscape.man_made",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "simplified" }, { "saturation": -60 }, { "lightness": 10 }]
+                    }, {
+                        "featureType": "landscape.natural",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "simplified" }, { "saturation": -60 }, { "lightness": 60 }]
+                    }, {
+                        "featureType": "poi",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "off" }, { "saturation": -100 }, { "lightness": 60 }]
+                    }, {
+                        "featureType": "transit",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "off" }, { "saturation": -100 }, { "lightness": 60 }]
+                    }
+                ]
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, lng)
+            });
+            marker.setMap(map);
+        }
+
+        // Show, hide map on select change
+        function controlMap(manual) {
+            $('#map_canvas')
+                .slideDown(100,
+                    function() {
+                        initializeMap();
+                    });
+
+            return !1;
+        }
+
+     
+    </script>
+    <script>
+        var Delete = function(ID) {
+
+            bootbox.confirm({
+                title: "Xóa",
+                message: "Bạn muốn xóa thông tin tai nạn",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function(result) {
+                    if (result) {
+                        $.ajax({
+                            type: "POST",
+                            url: '/TaiNan/DeleteConfirmed',
+                            data: { 'tnID': ID},
+                            success: function(data) {
+                                if (data.status) {
+                                    $('#myModal').modal('hide');
+                                    toastr.success("Delected Successfully");
+                                    //$(element).closest("tr").toggle();
+                                    $('#trdelete_'+ID).closest("tr").remove();
+                                    $('#trCdelete_'+ID).closest("tr").remove();
+                                }
+                            },
+                            error: function(xml, message, text) {
+                                toastr.error("Msg: " + message + ", Text: " + text);
+                            }
+                        });
+                    }
+                }
+            });
+
+        };
+   
+
+        var Details = function(ID) {
+   
+            $.ajax({
+                url: "/TaiNan/GetDetails",
+                type: "GET",
+                data: { tnID: ID },
+                success: function(result) {
+                    $('#myModal #eventTitle').text("Báo cáo: "+result.SoBC);
+                    $('#btnEdit').attr("href", "/TaiNan/Edit/" + result.TaiNanID);
+                    $('#btnDelete').attr("onclick", "Delete(" + result.TaiNanID +")");
+                    var $description = $('<div/>');
+                    $description.append($('<p/>').html('<b>Hình thức va chạm: </b>' + result.TenHTVC));
+                    if (result.TenNNTNGT != null) {
+                        $description
+                            .append($('<p/>').html('<b>Nguyên nhân: </b>' + result.TenNNTNGT));
+                    };
+                    $description.append($('<p/>').html('<b>Loại Đường: </b>' + result.TenLD));
+                    if (result.TomTatSoBo != null) {
+                        $description
+                            .append($('<p/>').html('<b>Tóm tắt sơ bộ: </b>' + result.TomTatSoBo));
+                    };
+                    $('#myModal #pDetails').empty().html($description);
+                    $('#myModal').on('shown.bs.modal',function () {
+                        initializeMap(result.Lat, result.Lng);
+                    });
+                    $('#myModal').modal();
+                },
+                error: function(error) {
+                    console.log(error);
+                    alert(error);
+                }
+            });
+        };
+    </script>
+}

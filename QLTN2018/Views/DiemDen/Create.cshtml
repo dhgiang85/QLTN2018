@@ -1,0 +1,81 @@
+﻿@model QLTN2018.Models.DiemDen
+
+@{
+    ViewBag.Title = "Create";
+}
+
+
+<h3>Chọn Điểm đen</h3>
+<hr />
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+    @Html.HiddenFor(model => model.ID)
+    @Html.HiddenFor(model => model.DateCreated)
+    <div class="col-md-5">
+        <div class="form-group marginbottomless">
+            <label class="control-label col-md-4 paddingless">Tuyến đường</label>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control paddingInputless" } })
+            </div>
+
+        </div>
+
+        <div class="form-group marginbottomless">
+            <label class="control-label col-md-4 paddingless">Địa chỉ</label>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control paddingInputless" } })
+            </div>
+
+        </div>
+        <div class="form-group marginbottomless">
+            <label class="control-label col-md-4 paddingless">Đơn vị</label>
+            <div class="col-md-8">
+                @Html.EditorFor(model => model.DVCT, new { htmlAttributes = new { @class = "form-control paddingInputless" } })
+            </div>
+
+        </div>
+        <div class="form-group marginbottomless">
+            <div class="col-md-11 col-md-offset-1">
+                @Html.TextAreaFor(model => model.Note, 5, 0, new { @class = "form-control paddingInputless", placeholder = "Kế hoạch xử lý", type = "text" })
+            </div>
+        </div>
+
+        <div class="form-group marginbottomless">
+            <div class="col-md-offset-10 col-md-2">
+                <input type="submit" value="Lưu" class="btn btn-success" />
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-7 marginbottomless paddingInputless">
+        <div class="form-group marginbottomless">
+                <div class="col-md-12">
+                    <input class="form-control" placeholder="Tìm địa điểm" type="text" id="maps_address" />
+                </div>
+            </div>
+        <div id="maps_maparea">
+            <div id="maps_mapcanvas" style="margin: 2px" class="form-group"></div>
+        </div>
+    </div>
+
+
+</div>
+
+    <input id="DiemDen_Lat" name="Lat" type="text" value="@Model.Lat" hidden>
+    <input id="DiemDen_Lng" name="Lng" type="text" value="@Model.Lng" hidden>
+    <input id="DiemDen_Radius" name="Radius" type="text" value="@Model.Radius" hidden>
+}
+@section Scripts {
+
+    <script src="/Scripts/chosen.jquery.min.js"></script>
+    <script type="text/javascript">
+        var map_Lat = @Model.Lat;
+        var map_Lng = @Model.Lng;
+        var map_Radius = @Model.Radius;
+    </script>
+    <script type="text/javascript" src="~/Scripts/PickCircle.js"></script>
+}

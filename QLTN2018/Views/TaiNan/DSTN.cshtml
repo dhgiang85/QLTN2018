@@ -1,0 +1,292 @@
+﻿@{
+    ViewBag.Title = "DSTN";
+}
+
+<div class="products-view-all">
+    <form class="post-list">
+        <input type="hidden" value="">
+    </form>
+    <div class="clearfix">
+        <article class="navbar-form navbar-left p-0 m-0 ml-b pull-right" style="padding-right: 0px">
+            
+            <label>
+                Tìm <input type="text" placeholder="số báo cáo, địa chỉ, tóm tắt sơ bộ" class="form-control paddingInputless post_search_text m-b" style="min-width: 250px">
+            </label>
+            <div class="form-group">
+                <label>Sắp xếp theo: </label>
+                <select class="form-control paddingInputless post_name m-b">
+                    <option value="TGTN">Thời gian</option>
+                    <option value="MaDVCTN">Đơn Vị</option>
+                    <option value="MaLTN">Loại</option>
+                </select>
+                <select class="form-control post_sort paddingInputless m-b">
+                    <option value="DESC">Giảm</option>
+                    <option value="ASC">Tăng</option>
+
+                </select>
+            </div> /
+            <div class="form-group">
+                <select class="form-control paddingInputless post_max m-b">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                </select>
+            </div>
+            <input type="submit" value="Lọc" class="btn btn-primary post_search_submit m-b" >
+            @Html.ActionLink(" ", "Create", null, null, new { id = "btnCreate", @class = "btn btn-success fa fa-plus", title = "tạo mới"})
+        </article>
+    </div>
+
+    <div class="clearfix">
+        <div class="pagination-container clearfix">
+        </div>
+        <div class="pagination-nav pull-right"></div>
+    </div>
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">
+                    <span id="eventTitle">1234</span>
+                </h4>
+            </div>
+            <div class="modal-body" id="pModalbody">
+
+                <a id="btnDelete" onclick="Delete(25)" class="btn btn-default btn-sm pull-right">
+                    <span class="glyphicon glyphicon-remove"></span> Remove
+                </a>
+                <a id="btnEdit" href="" class="btn btn-default btn-sm pull-right" style="margin-right: 5px;">
+                    <span class="glyphicon glyphicon-pencil"></span> Edit
+                </a>
+
+                <p id="pDetails"></p>
+                <div id="map_canvas" style="width: auto; height: 250px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script src="/Scripts/App.js"></script>
+    <script type="text/javascript">
+        $(document)
+            .ready(function() {
+                if (!document.getElementById('googleMapAPI')) {
+                    var s = document.createElement('script');
+                    s.type = 'text/javascript';
+                    s.id = 'googleMapAPI';
+                    s.src =
+                        'https://maps.googleapis.com/maps/api/js?key=AIzaSyDHasSo8MEV7BJbmm0axYKJ8-4IELQjf1k&libraries=places';
+                    document.body.appendChild(s);
+                } else {
+                    controlMap();
+                }
+                
+            });
+
+        function initializeMap(lat, lng) {
+            var mapOptions = {
+                center: new google.maps.LatLng(lat, lng),
+                zoom: 17,
+                styles: [
+                    {
+                        "featureType": "administrative",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "on" }, { "saturation": -100 }, { "lightness": 20 }]
+                    }, {
+                        "featureType": "road",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "on" }, { "saturation": -100 }, { "lightness": 40 }]
+                    }, {
+                        "featureType": "water",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "on" }, { "saturation": -10 }, { "lightness": 30 }]
+                    }, {
+                        "featureType": "landscape.man_made",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "simplified" }, { "saturation": -60 }, { "lightness": 10 }]
+                    }, {
+                        "featureType": "landscape.natural",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "simplified" }, { "saturation": -60 }, { "lightness": 60 }]
+                    }, {
+                        "featureType": "poi",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "off" }, { "saturation": -100 }, { "lightness": 60 }]
+                    }, {
+                        "featureType": "transit",
+                        "elementType": "all",
+                        "stylers": [{ "visibility": "off" }, { "saturation": -100 }, { "lightness": 60 }]
+                    }
+                ]
+            };
+            var map = new google.maps.Map(document.getElementById("map_canvas"),
+                mapOptions);
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(lat, lng)
+            });
+            marker.setMap(map);
+        }
+
+        // Show, hide map on select change
+        function controlMap(manual) {
+            $('#map_canvas')
+                .slideDown(100,
+                    function() {
+                        initializeMap();
+                    });
+
+            return !1;
+        }
+
+
+    </script>
+    <script>
+        
+
+        var RowDetails = function (ID) {
+            var $row = $('#Row_' + ID),
+                $srow = $('#sRow_' + ID),
+                // find next immediate .expand-child
+                $nextRow = $row.next('tr.expand-child');
+           
+            // toggle button
+                $srow.toggleClass('fa-plus-circle fa-minus-circle');
+            // if .expand-child row exist already, toggle
+          
+            if ($nextRow.length) {
+                // show or hide .expand-child row if eye button is open or not, respectively
+                $nextRow.toggle($srow.hasClass('fa-minus-circle'));
+
+                //$nextRow.remove();
+                // if not, create .expand-child row
+            } else {
+                
+                $.ajax({
+                    url: '/TaiNan/TVDetails/',
+                    dataType: "json",
+                    type: "GET",
+                    data: { tnID: ID },
+                    success: function (rslt) {
+                        console.log(rslt);
+                        var newRow =
+                            '<tr style="background-color:  #8faac9;" class="expand-child"' +
+                                '">' +
+                                '<td colspan="12" style="padding-top:1px" id="trCdelete_' + ID + '" >' +
+                                '<table class="table table-condensed " width=100% style="margin-bottom:2px" >' +
+                                '<thead>' +
+                                '<tr>' +
+                                '<th class="width-10">Đối tượng</th>' +
+                                '<th class="width-12">Nhóm tuổi</th>' +
+                                '<th class="width-7">Giới tính</th>' +
+                                '<th class="width-25">Hình thức bảo vệ</th>' +
+                                '<th class="width-25">Tỷ lệ thương vong </th>' +
+                                '<th class="width-7">Số TV</th>' +
+                                '</tr>' +
+                                '</thead>' +
+                                '<tbody>';
+
+                        $.each(rslt,
+                            function (i, tntv) {
+                                newRow += '<tr>' +
+                                    '<td>' + tntv.TenDTTV + '</td>' +
+                                    '<td>' + tntv.TenNT + '</td>' +
+                                    '<td>' + (tntv.Nam ? 'Nam' : 'Nữ') + '</td>' +
+                                    '<td>' + tntv.TenHTBV + '</td>' +
+                                    '<td>' + tntv.TyLeTV + '</td>' +
+                                    '<td>' + tntv.SoTV + '</td>' +
+                                    '</tr>';
+                            });
+                        newRow += '</tbody></table></td></tr>';
+                        $row.after(newRow);
+                    },
+                    error: function (xml, message, text) {
+
+
+                        toastr.error("Msg: " + message + ", Text: " + text);
+                    }
+
+                });
+            }
+        }
+        var Delete = function(ID) {
+            bootbox.confirm({
+                title: "Xóa",
+                message: "Bạn muốn xóa thông tin tai nạn",
+                buttons: {
+                    confirm: {
+                        label: 'Yes',
+                        className: 'btn-success'
+                    },
+                    cancel: {
+                        label: 'No',
+                        className: 'btn-danger'
+                    }
+                },
+                callback: function(result) {
+                    if (result) {
+                        $.ajax({
+                            type: "POST",
+                            url: '/TaiNan/DeleteConfirmed',
+                            data: { 'tnID': ID },
+                            success: function(data) {
+                                if (data.status) {
+                                    $('#myModal').modal('hide');
+                                    toastr.success("Delected Successfully");
+                                    //$(element).closest("tr").toggle();
+                                    $('#trdelete_' + ID).closest("tr").remove();
+                                    $('#trCdelete_' + ID).closest("tr").remove();
+                                }
+                            },
+                            error: function(xml, message, text) {
+                                toastr.error("Msg: " + message + ", Text: " + text);
+                            }
+                        });
+                    }
+                }
+            });
+
+        };
+
+
+        var Details = function(ID) {
+
+            $.ajax({
+                url: "/TaiNan/GetDetails",
+                type: "GET",
+                data: { tnID: ID },
+                success: function(result) {
+                    $('#myModal #eventTitle').text("Báo cáo: " + result.SoBC);
+                    $('#btnEdit').attr("href", "/TaiNan/Edit/" + result.TaiNanID);
+                    $('#btnDelete').attr("onclick", "Delete(" + result.TaiNanID + ")");
+                    var $description = $('<div/>');
+                    $description.append($('<p/>').html('<b>Hình thức va chạm: </b>' + result.TenHTVC));
+                    if (result.TenNNTNGT != null) {
+                        $description
+                            .append($('<p/>').html('<b>Nguyên nhân: </b>' + result.TenNNTNGT));
+                    };
+                    $description.append($('<p/>').html('<b>Loại Đường: </b>' + result.TenLD));
+                    if (result.TomTatSoBo != null) {
+                        $description
+                            .append($('<p/>').html('<b>Tóm tắt sơ bộ: </b>' + result.TomTatSoBo));
+                    };
+                    $('#myModal #pDetails').empty().html($description);
+                    $('#myModal')
+                        .on('shown.bs.modal',
+                            function() {
+                                initializeMap(result.Lat, result.Lng);
+                            });
+                    $('#myModal').modal();
+                },
+                error: function(error) {
+                    console.log(error);
+                    alert(error);
+                }
+            });
+        };
+    </script>
+}
